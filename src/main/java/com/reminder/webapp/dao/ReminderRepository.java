@@ -12,7 +12,10 @@ import com.reminder.webapp.model.Reminder;
 public interface ReminderRepository extends JpaRepository<Reminder, Integer>
 {
 	
-	@Query("SELECT R FROM Reminder R JOIN User U ON U.userId = R.reminderId where U.email =?1")
-	public List<Reminder> geAllByUserEmail(String email);
+	@Query(value ="select * from reminder R where R.user_id = ?1", nativeQuery = true)
+	public List<Reminder> geAllByUserEmail(int id);
+	
+	
+	
 
 }

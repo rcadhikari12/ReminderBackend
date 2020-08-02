@@ -40,10 +40,14 @@ public class ReminderService {
 	}
 
 	public List<Reminder> getAllRemindersByUser(String email) {
-		return reminderRepository.geAllByUserEmail(email);
+		
+		Optional<User> userObj = userRepository.findByEmail(email);
+		User user = userObj.get();
+		int id = user.getUserId();
+		return reminderRepository.geAllByUserEmail(id);
 	}
 
-	@Scheduled(fixedRate = 30000)
+	@Scheduled(fixedRate = 60000)
 	public void sendReminder() {
 
 		List<Reminder> reminderList = getAllReminders();
@@ -58,13 +62,18 @@ public class ReminderService {
 			String dbTime = formatterTime.format(reminder.getEventReminderTime());
 
 			if (todayDate.equals(dbDate) && dbTime.equals(todayTime)) {
-				System.out.println("working fine");
-				System.out.println("today date" + todayDate + "today time" + todayTime);
+				String recipent = reminder.getUser().getEmail();
+				String eventName = reminder.getEventName();
+				
+				 mailService.sendEmail(recipent, eventName);
+				 System.out.println("email sent");
+				
+				
 			}
 
 		}
 
-		// mailService.sendEmail();
+		
 
 	}
 

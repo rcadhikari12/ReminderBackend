@@ -30,7 +30,7 @@ public class Reminder
 	private Date eventReminderDate;
 	
 	@Temporal(TemporalType.TIME)
-	@JsonFormat(pattern = "HH:mm", timezone = "GMT-5")
+	@JsonFormat(pattern = "HH:mm", timezone = "GMT-6")
 	private Date eventReminderTime;
 	
 	
